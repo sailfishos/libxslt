@@ -1,0 +1,12 @@
+<package project="Mer:Trunk:Base" name="libxslt">
+  <title>Library providing the Gnome XSLT engine</title>
+  <description>This C library allows to transform XML files into other XML files
+(or HTML, text, ...) using the standard XSLT stylesheet transformation
+mechanism. To use it you need to have a version of libxml2 &gt;= 2.6.27
+installed. The xsltproc command is a command line interface to the XSLT engine
+
+
+
+</description>
+  <url>http://xmlsoft.org/XSLT/</url>
+</package>

@@ -1,0 +1,29 @@
+Name: libxslt
+Summary: Library providing the Gnome XSLT engine
+Version: 1.1.26
+Release: 1
+Group: System/Libraries
+License: MIT
+URL: http://xmlsoft.org/XSLT/
+Description: |
+    This C library allows to transform XML files into other XML files
+    (or HTML, text, ...) using the standard XSLT stylesheet transformation
+    mechanism. To use it you need to have a version of libxml2 >= 2.6.27
+    installed. The xsltproc command is a command line interface to the XSLT engine
+
+Sources:
+    - ftp://xmlsoft.org/XSLT/libxslt-%{version}.tar.gz
+Patches:
+    - multilib.patch
+
+PkgConfigBR:
+    - libxml-2.0 >= 2.6.27
+SubPackages:
+    - Name: devel
+      Summary: Libraries, includes, etc. to embed the Gnome XSLT engine
+      Group: Development/Libraries
+      Description: |
+          This C library allows to transform XML files into other XML files
+          (or HTML, text, ...) using the standard XSLT stylesheet transformation
+          mechanism. To use it you need to have a version of libxml2 >= 2.6.27
+          installed.
