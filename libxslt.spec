@@ -18,6 +18,7 @@ Patch0:     multilib.patch
 Requires(post):  /sbin/ldconfig
 Requires(postun):  /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
+BuildRequires: python2-devel
 
 BuildRoot:  %{_tmppath}/%{name}-%{version}-build
 
@@ -39,6 +40,22 @@ This C library allows to transform XML files into other XML files
 (or HTML, text, ...) using the standard XSLT stylesheet transformation
 mechanism. To use it you need to have a version of libxml2 >= 2.6.27
 installed.
+
+%package python
+Summary: Python bindings for the libxslt library
+Group: Development/Libraries
+Requires: libxslt = %{version}-%{release}
+Requires: libxml2-python
+
+%description python
+The libxslt-python package contains a module that permits applications
+written in the Python programming language to use the interface
+supplied by the libxslt library to apply XSLT transformations.
+
+This library allows to parse sytlesheets, uses the libxml2-python
+to load and save XML and HTML files. Direct access to XPath and
+the XSLT transformation context are possible to extend the XSLT language
+with XPath functions written in Python.
 
 
 
@@ -106,4 +123,13 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxslt.pc
 %{_libdir}/pkgconfig/libexslt.pc
 # << files devel
+
+%files python
+%defattr(-, root, root,-)
+%{python_sitearch}/libxslt.py*
+%{python_sitearch}/libxsltmod*
+%doc python/libxsltclass.txt
+%doc python/tests/*.py
+%doc python/tests/*.xml
+%doc python/tests/*.xsl
 

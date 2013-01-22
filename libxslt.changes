@@ -1,3 +1,6 @@
+* Tue Jan 22 2013 Oleg Girko <ol+mer@infoserver.ru> - 1.1.26
+- Add python subpackage.
+
 * Sat Feb 27 2010 Anas Nashif <anas.nashif@intel.com> - 1.1.26
 - Updated with latest spectacle
 - Include YAML file in source rpm
