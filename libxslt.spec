@@ -8,13 +8,21 @@
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
 Version:    1.1.26
-Release:    1
+Release:    2
 Group:      System/Libraries
 License:    MIT
 URL:        http://xmlsoft.org/XSLT/
 Source0:    ftp://xmlsoft.org/XSLT/libxslt-%{version}.tar.gz
 Source100:  libxslt.yaml
 Patch0:     multilib.patch
+Patch1:     0003-code-fix-and-docs-modification.patch
+Patch2:     0004-fix-typo.patch
+Patch3:     0005-cve-2012-2825.patch
+Patch4:     0006-cve-2012-2870.patch
+Patch5:     0007-Fix-default-template-processing-on-namespace-nodes.patch
+Patch6:     0008-Fix-a-dictionary-string-usage.patch
+Patch7:     0009-Fix-crash-with-empty-xsl-key-match-attribute.patch
+Patch8:     0010-Crash-when-passing-an-uninitialized-variable-to-docu.patch
 Requires(post):  /sbin/ldconfig
 Requires(postun):  /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
@@ -64,6 +72,22 @@ with XPath functions written in Python.
 
 # multilib.patch
 %patch0 -p1
+# 0003-code-fix-and-docs-modification.patch
+%patch1 -p1
+# 0004-fix-typo.patch
+%patch2 -p1
+# 0005-cve-2012-2825.patch
+%patch3 -p1
+# 0006-cve-2012-2870.patch
+%patch4 -p1 
+# 0007-Fix-default-template-processing-on-namespace-nodes.patch
+%patch5 -p1
+# 0008-Fix-a-dictionary-string-usage.patch
+%patch6 -p1
+# 0009-Fix-crash-with-empty-xsl-key-match-attribute.patch
+%patch7 -p1
+# 0010-Crash-when-passing-an-uninitialized-variable-to-docu.patch
+%patch8 -p1
 # >> setup
 # << setup
 

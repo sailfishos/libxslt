@@ -1,0 +1,85 @@
+From 6c99c519d97e5fcbec7a9537d190efb442e4e833 Mon Sep 17 00:00:00 2001
+From: Nick Wellnhofer <wellnhofer@aevum.de>
+Date: Wed, 10 Oct 2012 12:09:36 +0200
+Subject: [PATCH] Crash when passing an uninitialized variable to document()
+
+https://bugzilla.gnome.org/show_bug.cgi?id=685330
+
+Missing check for NULL
+---
+ libxslt/functions.c       |    5 +++--
+ tests/docs/Makefile.am    |    1 +
+ tests/docs/bug-180.xml    |    2 ++
+ tests/general/Makefile.am |    1 +
+ tests/general/bug-180.err |    4 ++++
+ tests/general/bug-180.xsl |    8 ++++++++
+ 6 files changed, 19 insertions(+), 2 deletions(-)
+ create mode 100644 tests/docs/bug-180.xml
+ create mode 100644 tests/general/bug-180.err
+ create mode 100644 tests/general/bug-180.out
+ create mode 100644 tests/general/bug-180.xsl
+
+--- a/libxslt/functions.c
++++ b/libxslt/functions.c
+@@ -260,7 +260,7 @@
+         obj = valuePop(ctxt);
+         ret = xmlXPathNewNodeSet(NULL);
+ 
+-        if (obj->nodesetval) {
++        if ((obj != NULL) && obj->nodesetval) {
+             for (i = 0; i < obj->nodesetval->nodeNr; i++) {
+                 valuePush(ctxt,
+                           xmlXPathNewNodeSet(obj->nodesetval->nodeTab[i]));
+@@ -280,7 +280,8 @@
+             }
+         }
+ 
+-        xmlXPathFreeObject(obj);
++        if (obj != NULL)
++            xmlXPathFreeObject(obj);
+         if (obj2 != NULL)
+             xmlXPathFreeObject(obj2);
+         valuePush(ctxt, ret);
+--- /dev/null
++++ b/tests/docs/bug-180.xml
+@@ -0,0 +1,2 @@
++<doc/>
++
+--- /dev/null
++++ b/tests/general/bug-180.err
+@@ -0,0 +1,4 @@
++runtime error: file ./bug-180.xsl line 4 element copy-of
++Variable 'xxx' has not been declared.
++XPath error : Stack usage errror
++xmlXPathCompiledEval: 1 objects left on the stack.
+--- /dev/null
++++ b/tests/general/bug-180.xsl
+@@ -0,0 +1,8 @@
++<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
++
++  <xsl:template match="/">
++      <xsl:copy-of select=" * | document($xxx) "/>
++  </xsl:template>
++
++</xsl:stylesheet>
++
+--- a/tests/docs/Makefile.am
++++ b/tests/docs/Makefile.am
+@@ -168,6 +168,7 @@
+ 	bug-167.xml \
+ 	bug-168.xml \
+ 	bug-169.xml \
++	bug-180.xml \
+ 	character.xml \
+ 	array.xml \
+ 	items.xml
+--- a/tests/general/Makefile.am
++++ b/tests/general/Makefile.am
+@@ -177,6 +177,7 @@
+     bug-167.out bug-167.xsl \
+     bug-168.out bug-168.xsl \
+     bug-169.out bug-169.xsl bug-169.imp \
++    bug-180.out bug-180.xsl bug-180.err \
+     character.out character.xsl \
+     character2.out character2.xsl \
+     itemschoose.out itemschoose.xsl \

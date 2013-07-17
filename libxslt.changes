@@ -1,3 +1,14 @@
+* Wed Jul 17 2013 Davide Bettio <davide.bettio@ispirata.com> - 1.1.26
+Several fixes for security bugs:
+- Added patch for some code fixes 
+- Added patch to fix typos 
+- Added patch for CVE-2012-2825
+- Added patch for CVE-2012-2870
+- Added patch to fix default template processing on namespace nodes
+- Added patch to fix a dictionary string usage
+- Added patch for https://bugzilla.gnome.org/show_bug.cgi?id=685328
+- Added patch for https://bugzilla.gnome.org/show_bug.cgi?id=685330 
+
 * Tue Jan 22 2013 Oleg Girko <ol+mer@infoserver.ru> - 1.1.26
 - Add python subpackage.
 
