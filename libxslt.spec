@@ -23,6 +23,7 @@ Patch5:     0007-Fix-default-template-processing-on-namespace-nodes.patch
 Patch6:     0008-Fix-a-dictionary-string-usage.patch
 Patch7:     0009-Fix-crash-with-empty-xsl-key-match-attribute.patch
 Patch8:     0010-Crash-when-passing-an-uninitialized-variable-to-docu.patch
+Patch9:     libxslt-aarch64.patch
 Requires(post):  /sbin/ldconfig
 Requires(postun):  /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
@@ -88,6 +89,7 @@ with XPath functions written in Python.
 %patch7 -p1
 # 0010-Crash-when-passing-an-uninitialized-variable-to-docu.patch
 %patch8 -p1
+%patch9 -p1
 # >> setup
 # << setup
 
