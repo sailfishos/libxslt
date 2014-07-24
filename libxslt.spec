@@ -7,23 +7,19 @@
 
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
-Version:    1.1.26
-Release:    2
+Version:    1.1.28
+Release:    1
 Group:      System/Libraries
 License:    MIT
 URL:        http://xmlsoft.org/XSLT/
 Source0:    ftp://xmlsoft.org/XSLT/libxslt-%{version}.tar.gz
 Source100:  libxslt.yaml
-Patch0:     multilib.patch
-Patch1:     0003-code-fix-and-docs-modification.patch
-Patch2:     0004-fix-typo.patch
-Patch3:     0005-cve-2012-2825.patch
-Patch4:     0006-cve-2012-2870.patch
-Patch5:     0007-Fix-default-template-processing-on-namespace-nodes.patch
-Patch6:     0008-Fix-a-dictionary-string-usage.patch
-Patch7:     0009-Fix-crash-with-empty-xsl-key-match-attribute.patch
-Patch8:     0010-Crash-when-passing-an-uninitialized-variable-to-docu.patch
-Patch9:     libxslt-aarch64.patch
+Patch1:     libxslt-aarch64.patch
+Patch2:     0001-patch-xslt-config-to-add-private-libraries.patch
+Patch3:     0002-fix-autoconf-automake.patch
+Patch4:     0005-Fix-a-couple-of-places-where-f-printf-parameters-wer.patch
+Patch5:     0007-EXSLT-function-str-replace-is-broken-as-is.patch
+Patch6:     0008-Fix-quoting-of-xlocale-test-program-in-configure.in.patch
 Requires(post):  /sbin/ldconfig
 Requires(postun):  /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
@@ -71,25 +67,18 @@ with XPath functions written in Python.
 %prep
 %setup -q -n %{name}-%{version}
 
-# multilib.patch
-%patch0 -p1
-# 0003-code-fix-and-docs-modification.patch
+# libxslt-aarch64.patch
 %patch1 -p1
-# 0004-fix-typo.patch
+# 0001-patch-xslt-config-to-add-private-libraries.patch
 %patch2 -p1
-# 0005-cve-2012-2825.patch
+# 0002-fix-autoconf-automake.patch
 %patch3 -p1
-# 0006-cve-2012-2870.patch
-%patch4 -p1 
-# 0007-Fix-default-template-processing-on-namespace-nodes.patch
+# 0005-Fix-a-couple-of-places-where-f-printf-parameters-wer.patch
+%patch4 -p1
+# 0007-EXSLT-function-str-replace-is-broken-as-is.patch
 %patch5 -p1
-# 0008-Fix-a-dictionary-string-usage.patch
+# 0008-Fix-quoting-of-xlocale-test-program-in-configure.in.patch
 %patch6 -p1
-# 0009-Fix-crash-with-empty-xsl-key-match-attribute.patch
-%patch7 -p1
-# 0010-Crash-when-passing-an-uninitialized-variable-to-docu.patch
-%patch8 -p1
-%patch9 -p1
 # >> setup
 # << setup
 
