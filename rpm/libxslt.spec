@@ -1,5 +1,3 @@
-%define disable_docs_package 1
-
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
 Version:    1.1.29
@@ -51,6 +49,14 @@ to load and save XML and HTML files. Direct access to XPath and
 the XSLT transformation context are possible to extend the XSLT language
 with XPath functions written in Python.
 
+%package doc
+Summary:   Documentation for %{name}
+Group:     Documentation
+Requires:  %{name} = %{version}-%{release}
+
+%description doc
+Man pages and documentation for %{name} and %{name}-python.
+
 %prep
 %setup -q -n %{name}-%{version}/%{name}
 
@@ -66,11 +72,14 @@ NOCONFIGURE=1 ./autogen.sh
 	--docdir=%{_docdir}/%{name}-%{version}
 
 # Call make instruction with smp support
-make %{?jobs:-j%jobs}
+make %{_smp_mflags}
 
 %install
 rm -rf %{buildroot}
 %make_install
+
+install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-1*/ \
+    AUTHORS ChangeLog FEATURES README NEWS TODO
 
 %clean
 rm -rf %{buildroot}
@@ -81,28 +90,16 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Copyright AUTHORS README
-%doc %{_mandir}/man1/xsltproc.1*
+%license Copyright
 %{_libdir}/lib*.so.*
 %{_libdir}/libxslt-plugins
 /usr/bin/xsltproc
 
 %files devel
 %defattr(-,root,root,-)
-%doc FEATURES Copyright ChangeLog AUTHORS README NEWS TODO
-%doc %{_docdir}/%{name}-1*/html/*.html
-%doc %{_docdir}/%{name}-1*/html/*.gif
-%doc %{_docdir}/%{name}-1*/html/EXSLT/*
-%doc %{_docdir}/%{name}-1*/html/html/*
-%doc %{_docdir}/%{name}-1*/html/tutorial/*
-%doc %{_docdir}/%{name}-1*/html/tutorial2/*
 
 # Should we make a libxslt-python-devel separate subpackage?
-%doc %{_docdir}/%{name}-python-*/TODO
-%doc %{_docdir}/%{name}-python-*/examples/*
 
-%doc %{_mandir}/man3/libxslt.3*
-%doc %{_mandir}/man3/libexslt.3*
 %{_libdir}/lib*.so
 %{_libdir}/*.sh
 /usr/share/aclocal/libxslt.m4
@@ -119,3 +116,12 @@ rm -rf %{buildroot}
 %doc python/tests/*.py
 %doc python/tests/*.xml
 %doc python/tests/*.xsl
+
+%files doc
+%defattr(-, root, root)
+%doc %{_mandir}/man1/xsltproc.1*
+%doc %{_mandir}/man3/libxslt.3*
+%doc %{_mandir}/man3/libexslt.3*
+%doc %{_docdir}/%{name}-1*/*
+%doc %{_docdir}/%{name}-python-*/TODO
+%doc %{_docdir}/%{name}-python-*/examples/*
