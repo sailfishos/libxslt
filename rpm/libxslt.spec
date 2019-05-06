@@ -1,13 +1,13 @@
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
-Version:    1.1.29
+Version:    1.1.33
 Release:    1
 Group:      System/Libraries
 License:    MIT
 URL:        http://xmlsoft.org/XSLT/
 Source0:    ftp://xmlsoft.org/XSLT/libxslt-%{version}.tar.gz
-Patch2:     0001-patch-xslt-config-to-add-private-libraries.patch
-Patch3:     0002-fix-autoconf-automake.patch
+Patch1:     0001-patch-xslt-config-to-add-private-libraries.patch
+Patch2:     0002-Fix-security-framework-bypass.patch
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
@@ -61,9 +61,9 @@ Man pages and documentation for %{name} and %{name}-python.
 %setup -q -n %{name}-%{version}/%{name}
 
 # 0001-patch-xslt-config-to-add-private-libraries.patch
+%patch1 -p1
+# 0002-Fix-security-framework-bypass.patch
 %patch2 -p1
-# 0002-fix-autoconf-automake.patch
-%patch3 -p1
 
 %build
 NOCONFIGURE=1 ./autogen.sh
