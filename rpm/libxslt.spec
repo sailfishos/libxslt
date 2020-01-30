@@ -11,10 +11,10 @@ Patch2:     0002-Fix-security-framework-bypass.patch
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
-BuildRequires:  python2-devel
 BuildRequires:  automake
 BuildRequires:  autoconf
 BuildRequires:  libtool
+Obsoletes: %{name}-python <= 1.1.33
 
 %description
 This C library allows to transform XML files into other XML files
@@ -33,29 +33,13 @@ This C library allows to transform XML files into other XML files
 mechanism. To use it you need to have a version of libxml2 >= 2.6.27
 installed.
 
-%package python
-Summary:  Python bindings for the libxslt library
-Group:    Development/Libraries
-Requires: libxslt = %{version}-%{release}
-Requires: libxml2-python
-
-%description python
-The libxslt-python package contains a module that permits applications
-written in the Python programming language to use the interface
-supplied by the libxslt library to apply XSLT transformations.
-
-This library allows to parse sytlesheets, uses the libxml2-python
-to load and save XML and HTML files. Direct access to XPath and
-the XSLT transformation context are possible to extend the XSLT language
-with XPath functions written in Python.
-
 %package doc
 Summary:   Documentation for %{name}
 Group:     Documentation
 Requires:  %{name} = %{version}-%{release}
 
 %description doc
-Man pages and documentation for %{name} and %{name}-python.
+Man pages and documentation for %{name}.
 
 %prep
 %setup -q -n %{name}-%{version}/%{name}
@@ -69,6 +53,7 @@ Man pages and documentation for %{name} and %{name}-python.
 NOCONFIGURE=1 ./autogen.sh
 %configure						\
 	--disable-static				\
+	--with-python=no                                \
 	--docdir=%{_docdir}/%{name}-%{version}
 
 # Call make instruction with smp support
@@ -97,9 +82,6 @@ rm -rf %{buildroot}
 
 %files devel
 %defattr(-,root,root,-)
-
-# Should we make a libxslt-python-devel separate subpackage?
-
 %{_libdir}/lib*.so
 %{_libdir}/*.sh
 /usr/share/aclocal/libxslt.m4
@@ -108,20 +90,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libxslt.pc
 %{_libdir}/pkgconfig/libexslt.pc
 
-%files python
-%defattr(-, root, root,-)
-%{python_sitearch}/libxslt.py*
-%{python_sitearch}/libxsltmod*
-%doc python/libxsltclass.txt
-%doc python/tests/*.py
-%doc python/tests/*.xml
-%doc python/tests/*.xsl
-
 %files doc
 %defattr(-, root, root)
 %doc %{_mandir}/man1/xsltproc.1*
 %doc %{_mandir}/man3/libxslt.3*
 %doc %{_mandir}/man3/libexslt.3*
 %doc %{_docdir}/%{name}-1*/*
-%doc %{_docdir}/%{name}-python-*/TODO
-%doc %{_docdir}/%{name}-python-*/examples/*
