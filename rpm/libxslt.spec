@@ -2,9 +2,8 @@ Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
 Version:    1.1.33
 Release:    1
-Group:      System/Libraries
 License:    MIT
-URL:        http://xmlsoft.org/XSLT/
+URL:        https://git.sailfishos.org/mer-core/libxslt
 Source0:    ftp://xmlsoft.org/XSLT/libxslt-%{version}.tar.gz
 Patch1:     0001-patch-xslt-config-to-add-private-libraries.patch
 Patch2:     0002-Fix-security-framework-bypass.patch
@@ -24,7 +23,6 @@ installed. The xsltproc command is a command line interface to the XSLT engine
 
 %package devel
 Summary:  Libraries, includes, etc. to embed the Gnome XSLT engine
-Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
 
 %description devel
@@ -35,7 +33,6 @@ installed.
 
 %package doc
 Summary:   Documentation for %{name}
-Group:     Documentation
 Requires:  %{name} = %{version}-%{release}
 
 %description doc
@@ -57,7 +54,7 @@ NOCONFIGURE=1 ./autogen.sh
 	--docdir=%{_docdir}/%{name}-%{version}
 
 # Call make instruction with smp support
-make %{_smp_mflags}
+make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
