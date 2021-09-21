@@ -1,12 +1,10 @@
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
-Version:    1.1.33
+Version:    1.1.34
 Release:    1
 License:    MIT
-URL:        https://git.sailfishos.org/mer-core/libxslt
-Source0:    ftp://xmlsoft.org/XSLT/libxslt-%{version}.tar.gz
-Patch1:     0001-patch-xslt-config-to-add-private-libraries.patch
-Patch2:     0002-Fix-security-framework-bypass.patch
+URL:        https://github.com/sailfishos/libxslt
+Source0:    %{name}-%{version}.tar.gz
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
@@ -19,17 +17,15 @@ Obsoletes: %{name}-python <= 1.1.33
 This C library allows to transform XML files into other XML files
 (or HTML, text, ...) using the standard XSLT stylesheet transformation
 mechanism. To use it you need to have a version of libxml2 >= 2.6.27
-installed. The xsltproc command is a command line interface to the XSLT engine
+installed. The xsltproc command is a command line interface to the XSLT engine.
 
 %package devel
 Summary:  Libraries, includes, etc. to embed the Gnome XSLT engine
 Requires: %{name} = %{version}-%{release}
 
 %description devel
-This C library allows to transform XML files into other XML files
-(or HTML, text, ...) using the standard XSLT stylesheet transformation
-mechanism. To use it you need to have a version of libxml2 >= 2.6.27
-installed.
+The %{name}-devel package contains libraries and header files for
+developing applications that use %{name}.
 
 %package doc
 Summary:   Documentation for %{name}
@@ -39,12 +35,7 @@ Requires:  %{name} = %{version}-%{release}
 Man pages and documentation for %{name}.
 
 %prep
-%setup -q -n %{name}-%{version}/%{name}
-
-# 0001-patch-xslt-config-to-add-private-libraries.patch
-%patch1 -p1
-# 0002-Fix-security-framework-bypass.patch
-%patch2 -p1
+%autosetup -p1 -n %{name}-%{version}/%{name}
 
 %build
 NOCONFIGURE=1 ./autogen.sh
@@ -57,14 +48,10 @@ NOCONFIGURE=1 ./autogen.sh
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 %make_install
 
 install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-1*/ \
     AUTHORS ChangeLog FEATURES README NEWS TODO
-
-%clean
-rm -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 
@@ -74,22 +61,22 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %license Copyright
 %{_libdir}/lib*.so.*
-%{_libdir}/libxslt-plugins
-/usr/bin/xsltproc
+%{_libdir}/%{name}-plugins
+%{_bindir}/xsltproc
 
 %files devel
 %defattr(-,root,root,-)
 %{_libdir}/lib*.so
 %{_libdir}/*.sh
-/usr/share/aclocal/libxslt.m4
-/usr/include/*
-/usr/bin/xslt-config
-%{_libdir}/pkgconfig/libxslt.pc
+%{_datadir}/aclocal/%{name}.m4
+%{_includedir}/*
+%{_bindir}/xslt-config
+%{_libdir}/pkgconfig/%{name}.pc
 %{_libdir}/pkgconfig/libexslt.pc
 
 %files doc
 %defattr(-, root, root)
 %doc %{_mandir}/man1/xsltproc.1*
-%doc %{_mandir}/man3/libxslt.3*
+%doc %{_mandir}/man3/%{name}.3*
 %doc %{_mandir}/man3/libexslt.3*
 %doc %{_docdir}/%{name}-1*/*

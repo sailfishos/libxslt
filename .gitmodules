@@ -1,3 +1,3 @@
 [submodule "libxslt"]
 	path = libxslt
-	url = https://git.sailfishos.org/mirror/libxslt.git
+	url = https://github.com/sailfishos-mirror/libxslt.git
