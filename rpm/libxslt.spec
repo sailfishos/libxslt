@@ -1,6 +1,6 @@
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
-Version:    1.1.34
+Version:    1.1.37
 Release:    1
 License:    MIT
 URL:        https://github.com/sailfishos/libxslt
@@ -8,9 +8,7 @@ Source0:    %{name}-%{version}.tar.gz
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
-BuildRequires:  automake
-BuildRequires:  autoconf
-BuildRequires:  libtool
+BuildRequires:  cmake
 Obsoletes: %{name}-python <= 1.1.33
 
 %description
@@ -38,20 +36,25 @@ Man pages and documentation for %{name}.
 %autosetup -p1 -n %{name}-%{version}/%{name}
 
 %build
-NOCONFIGURE=1 ./autogen.sh
-%configure						\
-	--disable-static				\
-	--with-python=no                                \
-	--docdir=%{_docdir}/%{name}-%{version}
+mkdir -p _build
+pushd _build
+%cmake .. \
+    -DLIBXSLT_WITH_PYTHON=OFF \
+    -DLIBXSLT_WITH_TESTS=OFF
 
-# Call make instruction with smp support
-make %{?_smp_mflags}
+%make_build
+popd
 
 %install
+pushd _build
 %make_install
+popd
 
-install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-1*/ \
-    AUTHORS ChangeLog FEATURES README NEWS TODO
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{name}-plugins
+
+# Remove devhelp documentation
+rm -Rf $RPM_BUILD_ROOT%{_docdir}/%{name}/devhelp
+rm -Rf $RPM_BUILD_ROOT%{_docdir}/%{name}/EXSLT/devhelp
 
 %post -p /sbin/ldconfig
 
@@ -68,15 +71,15 @@ install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-1*/ \
 %defattr(-,root,root,-)
 %{_libdir}/lib*.so
 %{_libdir}/*.sh
-%{_datadir}/aclocal/%{name}.m4
 %{_includedir}/*
 %{_bindir}/xslt-config
 %{_libdir}/pkgconfig/%{name}.pc
 %{_libdir}/pkgconfig/libexslt.pc
+%{_libdir}/cmake/libxslt*/
 
 %files doc
 %defattr(-, root, root)
 %doc %{_mandir}/man1/xsltproc.1*
 %doc %{_mandir}/man3/%{name}.3*
 %doc %{_mandir}/man3/libexslt.3*
-%doc %{_docdir}/%{name}-1*/*
+%doc %{_docdir}/%{name}/*
