@@ -5,6 +5,7 @@ Release:    1
 License:    MIT
 URL:        https://github.com/sailfishos/libxslt
 Source0:    %{name}-%{version}.tar.gz
+Patch0:     0001-cmake-Set-SOVERSION.patch
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
