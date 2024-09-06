@@ -1,11 +1,10 @@
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
-Version:    1.1.37
+Version:    1.1.42
 Release:    1
 License:    MIT
 URL:        https://github.com/sailfishos/libxslt
 Source0:    %{name}-%{version}.tar.gz
-Patch0:     0001-cmake-Set-SOVERSION.patch
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
@@ -62,14 +61,12 @@ rm -Rf $RPM_BUILD_ROOT%{_docdir}/%{name}/EXSLT/devhelp
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %license Copyright
 %{_libdir}/lib*.so.*
 %{_libdir}/%{name}-plugins
 %{_bindir}/xsltproc
 
 %files devel
-%defattr(-,root,root,-)
 %{_libdir}/lib*.so
 %{_libdir}/*.sh
 %{_includedir}/*
@@ -79,7 +76,6 @@ rm -Rf $RPM_BUILD_ROOT%{_docdir}/%{name}/EXSLT/devhelp
 %{_libdir}/cmake/libxslt*/
 
 %files doc
-%defattr(-, root, root)
 %doc %{_mandir}/man1/xsltproc.1*
 %doc %{_mandir}/man3/%{name}.3*
 %doc %{_mandir}/man3/libexslt.3*
