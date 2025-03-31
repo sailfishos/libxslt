@@ -1,6 +1,6 @@
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
-Version:    1.1.42
+Version:    1.1.43
 Release:    1
 License:    MIT
 URL:        https://github.com/sailfishos/libxslt
