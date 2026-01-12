@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:       libxslt
 Summary:    Library providing the Gnome XSLT engine
-Version:    1.1.43
+Version:    1.1.45
 Release:    1
 License:    MIT
 URL:        https://github.com/sailfishos/libxslt
@@ -36,19 +38,14 @@ Man pages and documentation for %{name}.
 %autosetup -p1 -n %{name}-%{version}/%{name}
 
 %build
-mkdir -p _build
-pushd _build
-%cmake .. \
+%cmake \
     -DLIBXSLT_WITH_PYTHON=OFF \
     -DLIBXSLT_WITH_TESTS=OFF
 
-%make_build
-popd
+%cmake_build
 
 %install
-pushd _build
-%make_install
-popd
+%cmake_install
 
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{name}-plugins
 
